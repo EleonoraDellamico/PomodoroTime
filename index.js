@@ -14,7 +14,6 @@ let startTimer; //if we don`t give it a value is automatically undefined
 
 //2 step after setting the function timer we setting the addEventListener
 start.addEventListener('click', function() {
-	bell.play();
 	if (startTimer === undefined) {
 		startTimer = setInterval(timer, 1000);
 	} else {
@@ -46,6 +45,7 @@ function timer() {
 	} else if (wm.innerText != 0 && ws.innerText == 0) {
 		ws.innerText = 59;
 		wm.innerText--;
+		bell.play();
 	}
 	//Break Timer CountDown
 	if (wm.innerText == 0 && ws.innerText == 0) {
@@ -54,6 +54,7 @@ function timer() {
 		} else if (bm.innerText != 0 && bs.innerText == 0) {
 			bs.innerText = 59;
 			bm.innerText--;
+			bell.play();
 		}
 	}
 	//Increment Counter by one if one full cycle is completed
@@ -65,7 +66,6 @@ function timer() {
 		bs.innerText = '00';
 
 		document.getElementById('counter').innerText++;
-		bell.play();
 	}
 }
 
