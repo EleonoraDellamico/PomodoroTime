@@ -7,6 +7,7 @@ let ws = document.getElementById('w-seconds');
 
 let bm = document.getElementById('b-minutes');
 let bs = document.getElementById('b-seconds');
+let bell = new Audio('bell.mp3');
 
 //store a reference to a timer varaiable
 let startTimer; //if we don`t give it a value is automatically undefined
@@ -63,6 +64,7 @@ function timer() {
 		bs.innerText = '00';
 
 		document.getElementById('counter').innerText++;
+		bell.play();
 	}
 }
 
