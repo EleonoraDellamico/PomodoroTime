@@ -14,6 +14,7 @@ let startTimer; //if we don`t give it a value is automatically undefined
 
 //2 step after setting the function timer we setting the addEventListener
 start.addEventListener('click', function() {
+	bell.play();
 	if (startTimer === undefined) {
 		startTimer = setInterval(timer, 1000);
 	} else {
