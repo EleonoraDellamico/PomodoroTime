@@ -1,13 +1,13 @@
-let buttonStart = document.getElementById('start');
-let buttonReset = document.getElementById('reset');
-let buttonPause = document.getElementById('stop');
+const buttonStart = document.getElementById('start');
+const buttonReset = document.getElementById('reset');
+const buttonPause = document.getElementById('stop');
 
-let wm = document.getElementById('w-minutes');
-let ws = document.getElementById('w-seconds');
+const domElementWorkMinutes = document.getElementById('w-minutes');
+const domElementWorkSeconds = document.getElementById('w-seconds');
 
-let bm = document.getElementById('b-minutes');
-let bs = document.getElementById('b-seconds');
-let bell = new Audio('bell.mp3');
+const bm = document.getElementById('b-minutes');
+const bs = document.getElementById('b-seconds');
+const bell = new Audio('bell.mp3');
 
 //store a reference to a timer varaiable
 let startTimer; //if we don`t give it a value is automatically undefined
@@ -23,35 +23,41 @@ buttonStart.addEventListener('click', function() {
 });
 
 buttonReset.addEventListener('click', function() {
-	wm.innerText = 25;
-	ws.innerText = '00';
-
-	bm.innerText = 5;
-	bs.innerText = '00';
+	initTimerDomElements();
 	document.getElementById('counter').innerText = 0;
-	stopInterval();
-	startTimer = undefined;
+	resetPomodoTimer();
 });
 
-buttonPause.addEventListener('click', function() {
-	stopInterval();
+function initTimerDomElements() {
+	domElementWorkMinutes.innerText = 25;
+	domElementWorkSeconds.innerText = '00';
+	bm.innerText = 5;
+	bs.innerText = '00';
+}
+
+function resetPomodoTimer() {
+	clearInterval(startTimer);
 	startTimer = undefined;
+}
+
+buttonPause.addEventListener('click', function() {
+	resetPomodoTimer();
 });
 
 //1 step setting the start function Timer
 function timer() {
 	//Work Timer CountDown
-	if (ws.innerText != 0) {
-		ws.innerText--;
-	} else if (wm.innerText != 0 && ws.innerText == 0) {
-		ws.innerText = 59;
-		wm.innerText--;
+	if (domElementWorkSeconds.innerText != 0) {
+		domElementWorkSeconds.innerText--;
+	} else if (domElementWorkMinutes.innerText != 0 && domElementWorkSeconds.innerText == 0) {
+		domElementWorkSeconds.innerText = 59;
+		domElementWorkMinutes.innerText--;
 	}
-	if (wm.innerText == 0 && ws.innerText == 0 && bm.innerText == 1 && bs.innerText == 0) {
+	if (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0 && bm.innerText == 1 && bs.innerText == 0) {
 		bell.play();
 	}
 	//Break Timer CountDown
-	if (wm.innerText == 0 && ws.innerText == 0) {
+	if (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0) {
 		if (bs.innerText != 0) {
 			bs.innerText--;
 		} else if (bm.innerText != 0 && bs.innerText == 0) {
@@ -60,9 +66,9 @@ function timer() {
 		}
 	}
 	//Increment Counter by one if one full cycle is completed
-	if (wm.innerText == 0 && ws.innerText == 0 && bm.innerText == 0 && bs.innerText == 0) {
-		wm.innerText = 25;
-		ws.innerText = '00';
+	if (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0 && bm.innerText == 0 && bs.innerText == 0) {
+		domElementWorkMinutes.innerText = 25;
+		domElementWorkSeconds.innerText = '00';
 
 		bm.innerText = 5;
 		bs.innerText = '00';
@@ -72,7 +78,3 @@ function timer() {
 	}
 }
 
-//3 step setting the stop timer function
-function stopInterval() {
-	clearInterval(startTimer);
-}
