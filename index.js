@@ -44,37 +44,61 @@ buttonPause.addEventListener('click', function() {
 	resetPomodoTimer();
 });
 
-//1 step setting the start function Timer
 function timer() {
-	//Work Timer CountDown
+	updateWorkTimer();
+	ringTheBell();
+	updateBreakTimer();
+	incrementBreakCounter();
+}
+
+function updateWorkTimer() {
 	if (domElementWorkSeconds.innerText != 0) {
 		domElementWorkSeconds.innerText--;
 	} else if (domElementWorkMinutes.innerText != 0 && domElementWorkSeconds.innerText == 0) {
 		domElementWorkSeconds.innerText = 59;
 		domElementWorkMinutes.innerText--;
 	}
+}
+
+function ringTheBell() {
 	if (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0 && bm.innerText == 1 && bs.innerText == 0) {
 		bell.play();
 	}
-	//Break Timer CountDown
-	if (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0) {
-		if (bs.innerText != 0) {
-			bs.innerText--;
-		} else if (bm.innerText != 0 && bs.innerText == 0) {
-			bs.innerText = 59;
-			bm.innerText--;
-		}
+}
+
+function updateBreakTimer() {
+	if (!isWorkTimerZero()) {
+		return;
 	}
-	//Increment Counter by one if one full cycle is completed
-	if (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0 && bm.innerText == 0 && bs.innerText == 0) {
-		domElementWorkMinutes.innerText = 25;
-		domElementWorkSeconds.innerText = '00';
 
-		bm.innerText = 5;
-		bs.innerText = '00';
-		bell.play();
+	if (bs.innerText != 0) {
+		bs.innerText--;
+		return;
+	}
 
-		document.getElementById('counter').innerText++;
+	if (bm.innerText != 0 && bs.innerText == 0) {
+		bs.innerText = 59;
+		bm.innerText--;
+		return;
 	}
 }
 
+function isWorkTimerZero() {
+	return (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0);
+}
+
+function incrementBreakCounter() {
+	if (! isTimersValuesZero()) {
+		return
+	}
+
+	initTimerDomElements();
+	bell.play();
+	document.getElementById('counter').innerText++;
+}
+
+function isTimersValuesZero() {
+	return (isWorkTimerZero() &&
+			bm.innerText == 0 &&
+			bs.innerText == 0);
+}
