@@ -1,6 +1,6 @@
-let start = document.getElementById('start');
-let reset = document.getElementById('reset');
-let stop = document.getElementById('stop');
+let buttonStart = document.getElementById('start');
+let buttonReset = document.getElementById('reset');
+let buttonPause = document.getElementById('stop');
 
 let wm = document.getElementById('w-minutes');
 let ws = document.getElementById('w-seconds');
@@ -13,7 +13,7 @@ let bell = new Audio('bell.mp3');
 let startTimer; //if we don`t give it a value is automatically undefined
 
 //2 step after setting the function timer we setting the addEventListener
-start.addEventListener('click', function() {
+buttonStart.addEventListener('click', function() {
 	if (startTimer === undefined) {
 		startTimer = setInterval(timer, 1000);
 		bell.play();
@@ -22,7 +22,7 @@ start.addEventListener('click', function() {
 	}
 });
 
-reset.addEventListener('click', function() {
+buttonReset.addEventListener('click', function() {
 	wm.innerText = 25;
 	ws.innerText = '00';
 
@@ -33,7 +33,7 @@ reset.addEventListener('click', function() {
 	startTimer = undefined;
 });
 
-stop.addEventListener('click', function() {
+buttonPause.addEventListener('click', function() {
 	stopInterval();
 	startTimer = undefined;
 });
