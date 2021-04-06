@@ -16,6 +16,7 @@ let startTimer; //if we don`t give it a value is automatically undefined
 start.addEventListener('click', function() {
 	if (startTimer === undefined) {
 		startTimer = setInterval(timer, 1000);
+		bell.play();
 	} else {
 		alert('Timer is already running');
 	}
@@ -45,6 +46,8 @@ function timer() {
 	} else if (wm.innerText != 0 && ws.innerText == 0) {
 		ws.innerText = 59;
 		wm.innerText--;
+	}
+	if (wm.innerText == 0 && ws.innerText == 0 && bm.innerText == 1 && bs.innerText == 0) {
 		bell.play();
 	}
 	//Break Timer CountDown
@@ -54,7 +57,6 @@ function timer() {
 		} else if (bm.innerText != 0 && bs.innerText == 0) {
 			bs.innerText = 59;
 			bm.innerText--;
-			bell.play();
 		}
 	}
 	//Increment Counter by one if one full cycle is completed
@@ -64,6 +66,7 @@ function timer() {
 
 		bm.innerText = 5;
 		bs.innerText = '00';
+		bell.play();
 
 		document.getElementById('counter').innerText++;
 	}
