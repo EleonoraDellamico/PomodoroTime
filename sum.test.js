@@ -20,11 +20,11 @@ test('Given a string value and a number when sum then result is a string', () =>
 });
 
 test('Given two boolean values when sum then the result is a boolean', () => {
-  expect(sum(true, true)).toEqual(true);
+   expect(sum(true, true)).toEqual(true);
   expect(sum(false, false)).toEqual(false);
   expect(sum(true, false)).toEqual(false);
   expect(sum(1, false)).toEqual(false);
-});
+ });
 
 test('Given two objects with age property when sum then the result is the sum of ages', () => {
   expect(sum({name: 'Eli', age: 33}, {name: 'Eli', age: 33})).toEqual(66);

@@ -1,3 +1,5 @@
+import {isWorkTimerZero} from '/pomodoro.js';
+
 const buttonStart = document.getElementById('start');
 const buttonReset = document.getElementById('reset');
 const buttonPause = document.getElementById('stop');
@@ -67,7 +69,7 @@ function ringTheBell() {
 }
 
 function updateBreakTimer() {
-	if (!isWorkTimerZero()) {
+	if (!isWorkTimerZero(domElementWorkMinutes.innerText, domElementWorkSeconds.innerText)) {
 		return;
 	}
 
@@ -83,10 +85,6 @@ function updateBreakTimer() {
 	}
 }
 
-function isWorkTimerZero() {
-	return (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0);
-}
-
 function incrementBreakCounter() {
 	if (! isTimersValuesZero()) {
 		return
@@ -98,7 +96,7 @@ function incrementBreakCounter() {
 }
 
 function isTimersValuesZero() {
-	return (isWorkTimerZero() &&
+	return (isWorkTimerZero(domElementWorkMinutes.innerText, domElementWorkSeconds.innerText) &&
 			bm.innerText == 0 &&
 			bs.innerText == 0);
 }
