@@ -1,19 +1,21 @@
-let start = document.getElementById('start');
-let reset = document.getElementById('reset');
-let stop = document.getElementById('stop');
+import {isWorkTimerZero} from '/pomodoro.js';
 
-let wm = document.getElementById('w-minutes');
-let ws = document.getElementById('w-seconds');
+const buttonStart = document.getElementById('start');
+const buttonReset = document.getElementById('reset');
+const buttonPause = document.getElementById('stop');
 
-let bm = document.getElementById('b-minutes');
-let bs = document.getElementById('b-seconds');
-let bell = new Audio('bell.mp3');
+const domElementWorkMinutes = document.getElementById('w-minutes');
+const domElementWorkSeconds = document.getElementById('w-seconds');
+
+const bm = document.getElementById('b-minutes');
+const bs = document.getElementById('b-seconds');
+const bell = new Audio('bell.mp3');
 
 //store a reference to a timer varaiable
 let startTimer; //if we don`t give it a value is automatically undefined
 
 //2 step after setting the function timer we setting the addEventListener
-start.addEventListener('click', function() {
+buttonStart.addEventListener('click', function() {
 	if (startTimer === undefined) {
 		startTimer = setInterval(timer, 1000);
 		bell.play();
@@ -22,57 +24,79 @@ start.addEventListener('click', function() {
 	}
 });
 
-reset.addEventListener('click', function() {
-	wm.innerText = 25;
-	ws.innerText = '00';
+buttonReset.addEventListener('click', function() {
+	initTimerDomElements();
+	document.getElementById('counter').innerText = 0;
+	resetPomodoTimer();
+});
 
+function initTimerDomElements() {
+	domElementWorkMinutes.innerText = 25;
+	domElementWorkSeconds.innerText = '00';
 	bm.innerText = 5;
 	bs.innerText = '00';
-	document.getElementById('counter').innerText = 0;
-	stopInterval();
+}
+
+function resetPomodoTimer() {
+	clearInterval(startTimer);
 	startTimer = undefined;
+}
+
+buttonPause.addEventListener('click', function() {
+	resetPomodoTimer();
 });
 
-stop.addEventListener('click', function() {
-	stopInterval();
-	startTimer = undefined;
-});
-
-//1 step setting the start function Timer
 function timer() {
-	//Work Timer CountDown
-	if (ws.innerText != 0) {
-		ws.innerText--;
-	} else if (wm.innerText != 0 && ws.innerText == 0) {
-		ws.innerText = 59;
-		wm.innerText--;
-	}
-	if (wm.innerText == 0 && ws.innerText == 0 && bm.innerText == 1 && bs.innerText == 0) {
-		bell.play();
-	}
-	//Break Timer CountDown
-	if (wm.innerText == 0 && ws.innerText == 0) {
-		if (bs.innerText != 0) {
-			bs.innerText--;
-		} else if (bm.innerText != 0 && bs.innerText == 0) {
-			bs.innerText = 59;
-			bm.innerText--;
-		}
-	}
-	//Increment Counter by one if one full cycle is completed
-	if (wm.innerText == 0 && ws.innerText == 0 && bm.innerText == 0 && bs.innerText == 0) {
-		wm.innerText = 25;
-		ws.innerText = '00';
+	updateWorkTimer();
+	ringTheBell();
+	updateBreakTimer();
+	incrementBreakCounter();
+}
 
-		bm.innerText = 5;
-		bs.innerText = '00';
-		bell.play();
-
-		document.getElementById('counter').innerText++;
+function updateWorkTimer() {
+	if (domElementWorkSeconds.innerText != 0) {
+		domElementWorkSeconds.innerText--;
+	} else if (domElementWorkMinutes.innerText != 0 && domElementWorkSeconds.innerText == 0) {
+		domElementWorkSeconds.innerText = 59;
+		domElementWorkMinutes.innerText--;
 	}
 }
 
-//3 step setting the stop timer function
-function stopInterval() {
-	clearInterval(startTimer);
+function ringTheBell() {
+	if (domElementWorkMinutes.innerText == 0 && domElementWorkSeconds.innerText == 0 && bm.innerText == 1 && bs.innerText == 0) {
+		bell.play();
+	}
+}
+
+function updateBreakTimer() {
+	if (!isWorkTimerZero(domElementWorkMinutes.innerText, domElementWorkSeconds.innerText)) {
+		return;
+	}
+
+	if (bs.innerText != 0) {
+		bs.innerText--;
+		return;
+	}
+
+	if (bm.innerText != 0 && bs.innerText == 0) {
+		bs.innerText = 59;
+		bm.innerText--;
+		return;
+	}
+}
+
+function incrementBreakCounter() {
+	if (! isTimersValuesZero()) {
+		return
+	}
+
+	initTimerDomElements();
+	bell.play();
+	document.getElementById('counter').innerText++;
+}
+
+function isTimersValuesZero() {
+	return (isWorkTimerZero(domElementWorkMinutes.innerText, domElementWorkSeconds.innerText) &&
+			bm.innerText == 0 &&
+			bs.innerText == 0);
 }

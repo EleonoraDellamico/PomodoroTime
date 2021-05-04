@@ -1,0 +1,26 @@
+{
+  "name": "PomodoroTimer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EleonoraDellamico/PomodoroTimer.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EleonoraDellamico/PomodoroTimer/issues"
+  },
+  "homepage": "https://github.com/EleonoraDellamico/PomodoroTimer#readme",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
